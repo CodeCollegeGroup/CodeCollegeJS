@@ -7,8 +7,8 @@ export default class Home extends Component{
     return (
       <div>
         <h1>Home</h1>
-        <Link to="/client">Clients</Link>
-        <Link to="/register/steps">Register Clients</Link>
+        <Link to="/login">Logue no sistema</Link><br/>
+        <Link to="/register">Cadastra-se</Link>
       </div>
     );
   }
