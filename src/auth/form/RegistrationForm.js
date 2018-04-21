@@ -3,7 +3,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Formsy from 'formsy-react';
 import {FormsyText, FormsyDate} from 'formsy-material-ui/lib';
 import AppDispatcher from '../../AppDispatcher';
-import LoginStore from '../../stores/LoginStore';
+import UserRegistrationStore from '../../stores/UserRegistrationStore';
 import ActionType from '../../actions/ActionType';
 
 
@@ -11,10 +11,27 @@ export default class RegistrationForm extends Component{
 
   constructor(props){
     super(props);
+
+    this.state = UserRegistrationStore.getInitialState();
+  }
+
+  componentWillMount = () => this.setState({
+    listener: UserRegistrationStore.addListener(this.handleChange)
+  })
+
+  componentWillUnmount = () => this.state.listener.remove()
+
+  handleChange = () => {
+    const {userCreated} = UserRegistrationStore.getState();
+    this.setState({userCreated});
+    console.log('estado mudou', this.state);
   }
 
   handleSubmit = (data) => {
-    console.log(data);
+    AppDispatcher.dispatch({
+      action: ActionType.REGISTER.POST,
+      data: data,
+    });
   }
 
   render(){

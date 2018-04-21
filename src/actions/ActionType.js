@@ -7,6 +7,11 @@ const actionTypes = {
     TOGGLEMENU: 'menu/toggle_side_menu',
     REQUESTCHANGE: 'menu/change_side_menu',
   },
+  REGISTER: {
+    POST: 'register/post',
+    FAIL: 'register/fail',
+    SUCCESS: 'register/success',
+  },
   LOGIN: {
     POST: 'login/post',
     FAIL: 'login/fail',
