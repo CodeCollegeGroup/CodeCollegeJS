@@ -56,7 +56,8 @@ const postData = (url, data, handleData=noneFunction, handleFail=noneFunction, h
     url,
     {
       method: methods.POST,
-      headers: getAuthenticatedHeader(),
+      //Removed so post could work to create a new user
+      //headers: getAuthenticatedHeader(),
       body: JSON.stringify(data),
     },
     handleData,

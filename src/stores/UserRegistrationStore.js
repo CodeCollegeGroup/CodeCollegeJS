@@ -12,15 +12,16 @@ class UserRegistrationStore extends ReduceStore {
   reduce = (state, action) => {
     switch (action.action) {
       case ActionType.REGISTER.POST:
-        postData('',
+        postData('http://localhost:8000/api/ordinary_user/',
           action.data,
+          () => {},
+          () => {
+            AppDispatcher.dispatch({action: ActionType.REGISTER.FAIL});
+          },
           (data) => {
             AppDispatcher.dispatch({action: ActionType.REGISTER.SUCCESS,
               data: data});
           },
-          () => {
-            AppDispatcher.dispatch({action: ActionType.REGISTER.FAIL});
-          }
         );
         return state;
 
@@ -28,7 +29,7 @@ class UserRegistrationStore extends ReduceStore {
         return {userCreated: true};
 
       case ActionType.REGISTER.FAIL:
-        return {userCreated: false};
+        return state;
     }
   }
 }

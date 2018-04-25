@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
+import Dialog from 'material-ui/Dialog';
 import Formsy from 'formsy-react';
 import {FormsyText, FormsyDate} from 'formsy-material-ui/lib';
 import AppDispatcher from '../../AppDispatcher';
@@ -54,24 +55,29 @@ export default class RegistrationForm extends Component{
           validationError={'Informe um e-mail válido'}
         />
         <FormsyText type="text"
-          name="name"
+          name="first_name"
           required
           hintText="Informe seu nome"
           floatingLabelText="Nome"
+          validations = "isWords"
+          validationError={'O nome não deve conter números'}
         />
         <FormsyDate
           name="birthday"
           required
           floatingLabelText="Data de nascimento"
+          openToYearSelection={true}
         />
         <FormsyText type="text"
-          name="registration"
+          name="college_registry"
           required
           hintText="Informe sua matrícula"
           floatingLabelText="Matrícula"
+          validations = "isNumeric"
+          validationError={'A matrícula deve conter apenas números'}
         />
         <FormsyText type="text"
-          name="university"
+          name="college"
           required
           hintText="Informe sua universidade"
           floatingLabelText="Universidade"
@@ -89,6 +95,11 @@ export default class RegistrationForm extends Component{
           floatingLabelText="Confirmação da Senha"
         />
         <RaisedButton backgroundColor='#324356' labelColor='#FFFFFF' label="ENTRAR" type="submit" style={{marginBottom: '30px', marginTop: '30px'}}/>
+        <Dialog
+          title="Dialog With Actions"
+          modal={false}
+          open={this.state.userCreated}
+        />
       </Formsy.Form>
     );
   }
