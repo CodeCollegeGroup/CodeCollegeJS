@@ -8,6 +8,16 @@ import UserRegistrationStore from '../../stores/UserRegistrationStore';
 import ActionType from '../../actions/ActionType';
 
 
+Date.prototype.getDateFormat = function() {
+  var mm = this.getMonth() + 1; // getMonth() is zero-based
+  var dd = this.getDate();
+
+  return [this.getFullYear(),
+          (mm>9 ? '' : '0') + mm,
+          (dd>9 ? '' : '0') + dd
+         ].join('-');
+};
+
 export default class RegistrationForm extends Component{
 
   constructor(props){
@@ -29,6 +39,7 @@ export default class RegistrationForm extends Component{
   }
 
   handleSubmit = (data) => {
+    data.birthday = data.birthday.getDateFormat();
     AppDispatcher.dispatch({
       action: ActionType.REGISTER.POST,
       data: data,
@@ -96,9 +107,15 @@ export default class RegistrationForm extends Component{
         />
         <RaisedButton backgroundColor='#324356' labelColor='#FFFFFF' label="ENTRAR" type="submit" style={{marginBottom: '30px', marginTop: '30px'}}/>
         <Dialog
-          title="Dialog With Actions"
+          title="Bem vindo ao CodeCollege"
           modal={false}
           open={this.state.userCreated}
+          actions={
+            <RaisedButton
+              label="Entendi"
+              href="http://localhost:3000/login"
+            />
+          }
         />
       </Formsy.Form>
     );
