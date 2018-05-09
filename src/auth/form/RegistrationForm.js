@@ -1,11 +1,16 @@
 import React, {Component} from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
+import MenuItem from 'material-ui/MenuItem';
 import Formsy from 'formsy-react';
-import {FormsyText, FormsyDate} from 'formsy-material-ui/lib';
+import { Row, Col } from 'react-flexbox-grid';
+import {FormsyText, FormsyDate, FormsySelect} from 'formsy-material-ui/lib';
 import AppDispatcher from '../../AppDispatcher';
 import UserRegistrationStore from '../../stores/UserRegistrationStore';
 import ActionType from '../../actions/ActionType';
+import {getData} from '../../resources/Requests';
+import Title from '../../components/Title';
+import Subtitle from '../../components/Subtitle';
 
 
 Date.prototype.getDateFormat = function() {
@@ -23,19 +28,21 @@ export default class RegistrationForm extends Component{
   constructor(props){
     super(props);
 
-    this.state = UserRegistrationStore.getInitialState();
+    this.state = {...UserRegistrationStore.getInitialState(), ...{universities: []}};
   }
 
-  componentWillMount = () => this.setState({
-    listener: UserRegistrationStore.addListener(this.handleChange)
-  })
+  componentWillMount = () => {
+    this.setState({
+      listener: UserRegistrationStore.addListener(this.handleChange)
+    });
+    this.fetchUniversities();
+  }
 
   componentWillUnmount = () => this.state.listener.remove()
 
   handleChange = () => {
     const {userCreated} = UserRegistrationStore.getState();
     this.setState({userCreated});
-    console.log('estado mudou', this.state);
   }
 
   handleSubmit = (data) => {
@@ -46,8 +53,38 @@ export default class RegistrationForm extends Component{
     });
   }
 
+  fetchUniversities = () => {
+    getData(
+      'http://localhost:8000/api/universities/university/',
+      (data) => {
+        this.setState({universities: data});
+      },
+      () => {},
+      () => {},
+      false
+    );
+  }
+
+  convertUniversitiesToOptions = () => {
+    this.getUniversities;
+    const universities = this.state.universities;
+    const listMenuItems = universities.map((university, index) => {
+      const text = `${university.name}`;
+      return(
+        <MenuItem key={index} value={university.id} primaryText={text} />
+      );
+    });
+    return listMenuItems;
+  }
+
   render(){
     return(
+      <Row>
+        <Col xs={12}>
+          <Row center="xs">
+            <Col xs={6}>
+              <Title  label = "Cadastre-se" />
+              <Subtitle style={{marginTop: '50px', marginBottom: '50px', marginLeft: '0px'}} label="Preencha o formulário" />
       <Formsy.Form ref={ (form) => {this.form = form;} }
         onValidSubmit={this.handleSubmit}
       >
@@ -57,6 +94,7 @@ export default class RegistrationForm extends Component{
           hintText="Nome de usuário"
           floatingLabelText="Usuário"
         />
+        <br/>
         <FormsyText type="text"
           name="email"
           required
@@ -65,6 +103,7 @@ export default class RegistrationForm extends Component{
           validations = "isEmail"
           validationError={'Informe um e-mail válido'}
         />
+        <br/>
         <FormsyText type="text"
           name="first_name"
           required
@@ -73,12 +112,14 @@ export default class RegistrationForm extends Component{
           validations = "isWords"
           validationError={'O nome não deve conter números'}
         />
+        <br/>
         <FormsyDate
           name="birthday"
           required
           floatingLabelText="Data de nascimento"
           openToYearSelection={true}
         />
+        <br/>
         <FormsyText type="text"
           name="college_registry"
           required
@@ -87,24 +128,29 @@ export default class RegistrationForm extends Component{
           validations = "isNumeric"
           validationError={'A matrícula deve conter apenas números'}
         />
-        <FormsyText type="text"
+        <br/>
+        <FormsySelect
           name="college"
           required
-          hintText="Informe sua universidade"
           floatingLabelText="Universidade"
-        />
+        >
+          {this.convertUniversitiesToOptions()}
+        </FormsySelect>
+        <br/>
         <FormsyText type="password"
           name="password"
           required
           hintText="Informe uma senha"
           floatingLabelText="Senha"
         />
+        <br/>
         <FormsyText type="password"
           name="confirmation_password"
           required
           hintText="Confirme sua senha"
           floatingLabelText="Confirmação da Senha"
         />
+        <br/>
         <RaisedButton backgroundColor='#324356' labelColor='#FFFFFF' label="ENTRAR" type="submit" style={{marginBottom: '30px', marginTop: '30px'}}/>
         <Dialog
           title="Bem vindo ao CodeCollege"
@@ -118,6 +164,10 @@ export default class RegistrationForm extends Component{
           }
         />
       </Formsy.Form>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
     );
   }
 

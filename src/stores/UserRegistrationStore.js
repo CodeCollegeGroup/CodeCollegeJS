@@ -12,7 +12,7 @@ class UserRegistrationStore extends ReduceStore {
   reduce = (state, action) => {
     switch (action.action) {
       case ActionType.REGISTER.POST:
-        postData('http://localhost:8000/api/ordinary_user/',
+        postData('http://localhost:8000/api/users/ordinary_user/',
           action.data,
           () => {},
           () => {
