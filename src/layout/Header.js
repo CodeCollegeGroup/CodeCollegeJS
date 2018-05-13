@@ -17,6 +17,7 @@ import AppDispatcher from '../AppDispatcher';
 import LogoutComponent from '../auth/LogoutComponent';
 import {Link} from 'react-router-dom';
 import LockOpen from 'material-ui/svg-icons/action/lock-open';
+import AssignmentInd from 'material-ui/svg-icons/action/assignment-ind';
 
 // TODO: Make css in a extern file
 // const muiTheme = getMuiTheme({
@@ -69,8 +70,8 @@ class Header extends React.Component {
     const iconButton = <IconButton> <MoreVertIcon /> </IconButton>;
 
     return (
-      auth && <AppBar
-        title="DreamRich"
+      <AppBar
+        title="CodeCollege"
         className='AppBar'
         style={styles}
         iconElementLeft={
@@ -90,12 +91,18 @@ class Header extends React.Component {
             open={this.state.openMenu}
           >
             <MenuItem>
-              {!auth && <Link to='/login'>
+              {!auth && <div><Link to='/login'>
                 <MenuItem
                   leftIcon={<LockOpen />}
                   primaryText='Login'
                 />
               </Link>
+              <Link to='/register'>
+                <MenuItem
+                  leftIcon={<AssignmentInd />}
+                  primaryText='Sign Up'
+                />
+              </Link></div>
               }
               { auth &&
                 <LogoutComponent />
