@@ -34,7 +34,7 @@ class LoginStore extends ReduceStore {
       return {...state, auth: false};
 
     case ActionType.REFRESH_LOGIN:
-      postData('/api/auth/refresh/',
+      postData('http://localhost:8000/api/users/refresh/',
         action.data,
         (data) => {
           AppDispatcher.dispatch({action: ActionType.LOGIN.SUCCESS,
