@@ -15,6 +15,7 @@ import ActionType from '../actions/ActionType';
 import AppDispatcher from '../AppDispatcher';
 //import {withRouter} from 'react-router';
 import LogoutComponent from '../auth/LogoutComponent';
+import {Auth} from '../auth/Auth';
 import {Link} from 'react-router-dom';
 import LockOpen from 'material-ui/svg-icons/action/lock-open';
 import AssignmentInd from 'material-ui/svg-icons/action/assignment-ind';
@@ -107,8 +108,13 @@ class Header extends React.Component {
               { auth &&
                 <LogoutComponent />
               }
+              { auth && <Link to='/login/changepassword'>
+                <MenuItem
+                  primaryText='Change password'
+                />
+              </Link>
+              }
             </MenuItem>
-            {makeMenuItem('allow_any','/login/changepassword','Change Password')}
           </IconMenu>
         }
       />
