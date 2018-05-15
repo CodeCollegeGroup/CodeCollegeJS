@@ -1,4 +1,4 @@
-import {methods, getAuthenticatedHeader} from './Headers';
+import {methods, getAuthenticatedHeader, getHeader} from './Headers';
 import {Auth} from '../auth/Auth';
 import AppDispatch from '../AppDispatcher';
 import ActionType from '../actions/ActionType';
@@ -58,6 +58,7 @@ const postData = (url, data, handleData=noneFunction, handleFail=noneFunction, h
       method: methods.POST,
       //Removed so post could work to create a new user
       //headers: getAuthenticatedHeader(),
+      headers: getHeader(),
       body: JSON.stringify(data),
     },
     handleData,

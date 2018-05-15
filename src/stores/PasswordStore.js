@@ -46,7 +46,7 @@ class PasswordStore extends ReduceStore {
   reduce = (state, action) => {
     switch (action.action) {
     case ActionType.PASSWORD.CHANGE:
-      postData('/api/auth/password/',
+      postData('http://localhost:8000/api/users/password/',
         action.data,
         () => {},
         (responseStatus) => {

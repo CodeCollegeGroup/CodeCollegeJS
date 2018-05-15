@@ -30,6 +30,9 @@ class UserRegistrationStore extends ReduceStore {
 
       case ActionType.REGISTER.FAIL:
         return state;
+
+      default:
+        return state;
     }
   }
 }
