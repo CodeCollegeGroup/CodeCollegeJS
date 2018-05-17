@@ -66,7 +66,6 @@ export default class RegistrationForm extends Component{
   }
 
   convertUniversitiesToOptions = () => {
-    this.getUniversities;
     const universities = this.state.universities;
     const listMenuItems = universities.map((university, index) => {
       const text = `${university.name}`;
